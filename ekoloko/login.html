@@ -1,12 +1,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
+<script src="https://unpkg.com/@ruffle-rs/ruffle"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="KeyWords" content=" Virtual,m2,tweens, world, virtual world, green, games, game, flash, recycling, rrr ,RRR, community, mmo ,mmo games, ekoloko, educational, fun, adventures, quests, safe, under 13, young, tweens, avatar, toys, values, עולם וירטואלי, עולם, וירטואלי, ירוק, ילדים, משחקים, משחקים לילדים, אווטאר, נדירים, פלאש, מחזור, מיחזור, איכותי,צעצועים,חינוכי,כיף,הרפתקה,משימות,קווסטים,חברים,בטוח לילדים,עד גיל 13,מתחת גיל 13,צעירים,קטנים,צעצועים,קהילה אקולוקו, משחק ">
 
 
 
 <title>ekoloko.com</title>
-<script src="AC_RunActiveContent.js" type="text/javascript"></script>
 <script type="text/javascript">
 
 if (navigator.userAgent.indexOf("Maxthon")>-1) {
@@ -31,7 +31,7 @@ function getParameter ( parameterName ) {
 }
 
 if(document.URL.indexOf('ekoloko.mako.', 0) >= 0) {
-  var url = "http://www.ekoloko.cf/ekoloko/login.html";
+  var url = "/ekoloko/login.html";
   url = addUrlParam("language", url);       
   url = addUrlParam("username", url);       
   url = addUrlParam("friend", url);       
@@ -59,8 +59,8 @@ function addUrlParam(pName, url) {
   return url;
 }
 
-var swfUrl = 'shell?version='+getVersion()
-swfUrl = addUrlParam("register", swfUrl);       
+var swfUrl = 'shell.swf?version=' + getVersion();
+swfUrl = addUrlParam("register", swfUrl);
 swfUrl = addUrlParam("language", swfUrl);       
 swfUrl = addUrlParam("username", swfUrl);       
 swfUrl = addUrlParam("directLogin", swfUrl);       
@@ -229,36 +229,35 @@ function setTableSpacing(value, showAds) {
 <td id="leftTD"></td>
 <td>
 <div align="center" id="mainSWFDIV">
-  <script language="javascript">
-    	if (AC_FL_RunContent == 0) {
-    		alert("This page requires AC_RunActiveContent.js.");
-    	} else {
-    		AC_FL_RunContent(
-    			'codebase', 'http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=10,0,45,2',
-    			'width', '960',
-    			'height', '600',
-    			'src', swfUrl,
-    			'quality', 'high',
-    			'pluginspage', 'http://www.macromedia.com/go/getflashplayer',
-    			'align', 'middle',
-    			'play', 'true',
-    			'loop', 'true',
-    			'scale', 'showall',
-    			'wmode', 'direct',
-    			'devicefont', 'false',
-    			'id', 'shell',
-    			'bgcolor', '#AAD93D',
-    			'name', 'shell',
-    			'menu', 'true',
-    			'allowFullScreen', 'true',
-    			'allowScriptAccess','always',
-    			'movie', swfUrl,
-    			'salign', '',
-    			'id', 'shell'
-    			); //end AC code
-    	}
+  <!-- Ruffle container -->
+<div id="ekoloko-player" style="width:100vw; height:100vh; background:#AAD93D"></div>  <script>
+    // Build the SWF URL with query parameters
+    var swfUrl = 'shell.swf?version=' + getVersion();
+    swfUrl = addUrlParam("register", swfUrl);
+    swfUrl = addUrlParam("language", swfUrl);       
+    swfUrl = addUrlParam("username", swfUrl);       
+    swfUrl = addUrlParam("directLogin", swfUrl);       
+    swfUrl = addUrlParam("advisor", swfUrl);
+    swfUrl = addUrlParam("friend", swfUrl);
+    swfUrl = addUrlParam("refCode", swfUrl);
+
+    document.addEventListener("DOMContentLoaded", function () {
+      try {
+        const ruffle = window.RufflePlayer.newest();
+        const player = ruffle.createPlayer();
+        player.style.width = "100%";
+        player.style.height = "100%";
+        const mount = document.getElementById("ekoloko-player");
+        mount.innerHTML = ""; 
+        mount.appendChild(player);
+        player.load(swfUrl);
+      } catch (e) {
+        console.error("Ruffle init failed:", e);
+      }
+    });
   </script>
 </div>
+
 </td>
 
 <td id="rightTD"></td>
